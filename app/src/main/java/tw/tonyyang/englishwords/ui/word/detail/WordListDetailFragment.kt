@@ -22,18 +22,6 @@ class WordListDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initActionbar()
-        setViews()
-    }
-
-    private fun initActionbar() {
-        (activity as? AppCompatActivity)?.apply {
-            setSupportActionBar(binding.toolbar.toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        }
-    }
-
-    private fun setViews() {
         val word = arguments?.getParcelable(WordListDetailActivity.EXTRA_SELECTED_WORD) as? Word
         if (word != null) {
             Logger.d(TAG, "word: $word")

@@ -19,6 +19,12 @@ class WordListDetailActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            setDisplayShowHomeEnabled(true)
+            setLogo(R.drawable.ic_launcher)
+            setDisplayUseLogoEnabled(true)
+        }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, WordListDetailFragment.newInstance(selectedWord))
