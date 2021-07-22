@@ -12,14 +12,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.google.android.material.snackbar.Snackbar
+import dev.shreyaspatil.MaterialDialog.MaterialDialog
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import tw.tonyyang.englishwords.util.Logger
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.databinding.FragmentDropboxchooserBinding
 import tw.tonyyang.englishwords.state.Result
 import tw.tonyyang.englishwords.util.UiUtils
-import tw.tonyyang.englishwords.util.showSnackbar
 
 class ImporterFragment : Fragment() {
 
@@ -50,18 +49,28 @@ class ImporterFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.RequestPermission()
             ) { isGranted: Boolean ->
                 if (isGranted) {
-                    layout.showSnackbar(
-                            R.string.importer_external_storage_permission_granted,
-                            Snackbar.LENGTH_INDEFINITE,
-                            android.R.string.ok
-                    ) {
-                        chooseFileFromLocal()
-                    }
+                    activity?.let {
+                        MaterialDialog.Builder(it)
+                            .setMessage(it.getString(R.string.importer_external_storage_permission_granted))
+                            .setCancelable(false)
+                            .setPositiveButton(it.getString(android.R.string.ok)) { dialogInterface, _ ->
+                                chooseFileFromLocal()
+                                dialogInterface.dismiss()
+                            }
+                            .build()
+                            .show()
+                    } ?: chooseFileFromLocal()
                 } else {
-                    layout.showSnackbar(
-                            R.string.importer_external_storage_permission_denied,
-                            Snackbar.LENGTH_SHORT,
-                            android.R.string.ok)
+                    activity?.let {
+                        MaterialDialog.Builder(it)
+                            .setMessage(it.getString(R.string.importer_external_storage_permission_denied))
+                            .setCancelable(false)
+                            .setPositiveButton(it.getString(android.R.string.ok)) { dialogInterface, _ ->
+                                dialogInterface.dismiss()
+                            }
+                            .build()
+                            .show()
+                    }
                 }
             }
 
@@ -116,21 +125,29 @@ class ImporterFragment : Fragment() {
 
     private fun requestExternalStoragePermission() {
         if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-            layout.showSnackbar(
-                    R.string.importer_external_storage_access_required,
-                    Snackbar.LENGTH_INDEFINITE,
-                    android.R.string.ok
-            ) {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
+            activity?.let {
+                MaterialDialog.Builder(it)
+                    .setMessage(it.getString(R.string.importer_external_storage_access_required))
+                    .setCancelable(false)
+                    .setPositiveButton(it.getString(android.R.string.ok)) { dialogInterface, _ ->
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        dialogInterface.dismiss()
+                    }
+                    .build()
+                    .show()
+            } ?: requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         } else {
-            layout.showSnackbar(
-                    R.string.importer_external_storage_permission_not_available,
-                    Snackbar.LENGTH_LONG,
-                    android.R.string.ok
-            ) {
-                requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            }
+            activity?.let {
+                MaterialDialog.Builder(it)
+                    .setMessage(it.getString(R.string.importer_external_storage_permission_not_available))
+                    .setCancelable(false)
+                    .setPositiveButton(it.getString(android.R.string.ok)) { dialogInterface, _ ->
+                        requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        dialogInterface.dismiss()
+                    }
+                    .build()
+                    .show()
+            } ?: requestPermissionLauncher.launch(Manifest.permission.WRITE_EXTERNAL_STORAGE)
         }
     }
 
