@@ -19,7 +19,7 @@ implemented:
 
 TODO:
 
-* [ ] UI flow simplify
+* [ ] Convert code base to compose
 
 ## Contributing
 
@@ -31,7 +31,7 @@ TODO:
 
 ## Author
 
-* **Tony Yang** - initial & develop basic feature - [solomaticydl](https://github.com/solomaticydl)
+* **tonyydl** - initial & develop basic feature - [tonyydl](https://github.com/tonyydl)
 
 ## License
 
