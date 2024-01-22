@@ -65,6 +65,7 @@ dependencies {
     val koinVersion = "2.2.2"
     val viewpager2Version = "1.0.0"
     val materialDialogVersion = "2.2.2"
+    val timberVersion = "5.0.1"
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCoreVersion")
@@ -100,4 +101,6 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-scope:$koinVersion")
     implementation("io.insert-koin:koin-androidx-viewmodel:$koinVersion")
     implementation("io.insert-koin:koin-androidx-fragment:$koinVersion")
+
+    implementation("com.jakewharton.timber:timber:$timberVersion")
 }

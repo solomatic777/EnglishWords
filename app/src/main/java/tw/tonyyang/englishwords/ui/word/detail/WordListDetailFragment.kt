@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import tw.tonyyang.englishwords.util.Logger
+import timber.log.Timber
 import tw.tonyyang.englishwords.database.entity.Word
 import tw.tonyyang.englishwords.databinding.FragmentWordListDetailBinding
 import tw.tonyyang.englishwords.ui.base.BaseFragment
@@ -24,14 +23,14 @@ class WordListDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val word = arguments?.getParcelable(WordListDetailActivity.EXTRA_SELECTED_WORD) as? Word
         if (word != null) {
-            Logger.d(TAG, "word: $word")
+            Timber.d("word: $word")
             binding.tvWord.text = word.word.replace("*", "")
             binding.tvWordmean.text = word.wordMean
             binding.tvWordSentence.text = word.wordSentence
             binding.tvCategory.text = word.category
             binding.ratingbar.setStar(word.wordStar.toFloat())
         } else {
-            Logger.d(TAG, "word is null")
+            Timber.d("word is null")
         }
     }
 
@@ -44,8 +43,6 @@ class WordListDetailFragment : BaseFragment() {
     }
 
     companion object {
-        private const val TAG = "WordListDetailFragment"
-
         fun newInstance(selectedWords: Word?) = WordListDetailFragment().apply {
             val bundle = Bundle().apply {
                 putParcelable(WordListDetailActivity.EXTRA_SELECTED_WORD, selectedWords)

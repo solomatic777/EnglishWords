@@ -6,11 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import tw.tonyyang.englishwords.App
-import tw.tonyyang.englishwords.util.Logger
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.database.entity.Word
 import tw.tonyyang.englishwords.repository.ExamRepository
@@ -44,7 +43,7 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
                             }
                         }
             }
-            Logger.d(TAG, "spendTime: $spendTime ms")
+            Timber.d("spendTime: $spendTime ms")
         }
     }
 
@@ -71,7 +70,6 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
     }
 
     companion object {
-        private const val TAG = "ExamViewModel"
         private const val RANDOM_WORDS_LIMIT_NUM = 4
         private const val SYMBOL_STAR = "*"
     }

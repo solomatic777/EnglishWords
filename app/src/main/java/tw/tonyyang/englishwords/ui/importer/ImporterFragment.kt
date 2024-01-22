@@ -95,8 +95,6 @@ class ImporterFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "ImporterFragment"
-
         fun newInstance() = ImporterFragment()
     }
 }

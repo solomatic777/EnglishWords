@@ -6,7 +6,7 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import tw.tonyyang.englishwords.util.Logger
+import timber.log.Timber
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.databinding.FragmentExamBinding
 import tw.tonyyang.englishwords.state.Result
@@ -51,7 +51,7 @@ class ExamFragment : Fragment() {
         examViewModel.examData.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.InProgress -> {
-                    Logger.d(TAG, "Result.InProgress")
+                    Timber.d("Result.InProgress")
                 }
                 is Result.Success -> {
                     updateUI(it.data)
@@ -108,8 +108,6 @@ class ExamFragment : Fragment() {
     }
 
     companion object {
-        private const val TAG = "ExamFragment"
-
         fun newInstance() = ExamFragment()
     }
 }
