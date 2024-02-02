@@ -11,7 +11,6 @@ import tw.tonyyang.englishwords.database.entity.Word
 import tw.tonyyang.englishwords.repository.ExcelRepository
 import tw.tonyyang.englishwords.state.Result
 import java.lang.IllegalStateException
-import kotlin.system.measureTimeMillis
 
 class ImporterViewModel(
     private val excelRepository: ExcelRepository
@@ -28,38 +27,36 @@ class ImporterViewModel(
     fun importWords(fileUrl: String?) {
         viewModelScope.launch {
             _showResult.value = Result.InProgress
-            measureTimeMillis {
-                excelRepository.getWordList(fileUrl)
-                    .flowOn(Dispatchers.IO)
-                    .catch { e -> _showResult.value = Result.Error(e) }
-                    .collect { wordList ->
-                        // If list is empty, set `Result.Error` for MutableLivedata and return.
-                        if (wordList.isEmpty()) {
-                            IllegalStateException(App.appContext.getString(R.string.import_excel_failed_word_list_empty)).let {
-                                _showResult.value = Result.Error(it)
-                                _wordList.value = Result.Error(it)
-                            }
-                            return@collect
+            excelRepository.getWordList(fileUrl)
+                .flowOn(Dispatchers.IO)
+                .catch { e -> _showResult.value = Result.Error(e) }
+                .collect { wordList ->
+                    // If list is empty, set `Result.Error` for MutableLivedata and return.
+                    if (wordList.isEmpty()) {
+                        IllegalStateException(App.appContext.getString(R.string.import_excel_failed_word_list_empty)).let {
+                            _showResult.value = Result.Error(it)
+                            _wordList.value = Result.Error(it)
                         }
-                        // Delete all vocabularies before doing insertion.
-                        App.db.wordDao().deleteAll()
-                        val roomInsertedCount = App.db.wordDao().insertAll(wordList).size
-                        if (roomInsertedCount > 0) {
-                            _showResult.value = Result.Success(
-                                App.appContext.getString(
-                                    R.string.import_excel_complete,
-                                    roomInsertedCount
-                                )
+                        return@collect
+                    }
+                    // Delete all vocabularies before doing insertion.
+                    App.db.wordDao().deleteAll()
+                    val roomInsertedCount = App.db.wordDao().insertAll(wordList).size
+                    if (roomInsertedCount > 0) {
+                        _showResult.value = Result.Success(
+                            App.appContext.getString(
+                                R.string.import_excel_complete,
+                                roomInsertedCount
                             )
-                            _wordList.value = Result.Success(wordList)
-                        } else {
-                            IllegalStateException(App.appContext.getString(R.string.import_excel_insert_failed)).let {
-                                _showResult.value = Result.Error(it)
-                                _wordList.value = Result.Error(it)
-                            }
+                        )
+                        _wordList.value = Result.Success(wordList)
+                    } else {
+                        IllegalStateException(App.appContext.getString(R.string.import_excel_insert_failed)).let {
+                            _showResult.value = Result.Error(it)
+                            _wordList.value = Result.Error(it)
                         }
                     }
-            }
+                }
         }
     }
 }

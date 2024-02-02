@@ -14,7 +14,6 @@ import tw.tonyyang.englishwords.database.entity.Word
 import tw.tonyyang.englishwords.repository.ExamRepository
 import tw.tonyyang.englishwords.state.Result
 import java.util.HashSet
-import kotlin.system.measureTimeMillis
 
 class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
 
@@ -24,30 +23,28 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
     fun requestExam() {
         viewModelScope.launch {
             _examData.value = Result.InProgress
-            measureTimeMillis {
-                examRepository.getRandomWords(RANDOM_WORDS_LIMIT_NUM)
-                    .flowOn(Dispatchers.IO)
-                    .catch { e ->
-                        _examData.value = Result.Error(e)
-                    }
-                    .collect { wordList ->
-                        _examData.value =
-                            if (wordList.isNotEmpty() && wordList.size == RANDOM_WORDS_LIMIT_NUM) {
-                                val targetWord = wordList.first()
-                                val randomArray = getRandomArray(wordList.size)
-                                val answers = wordList.getAnswers(randomArray)
-                                val examData = ExamData(
-                                    targetWord.getWordAndIgnoreSymbol(),
-                                    targetWord.wordMean,
-                                    answers,
-                                    randomArray.first()
-                                )
-                                Result.Success(examData)
-                            } else {
-                                Result.Error(IllegalStateException(App.appContext.getString(R.string.failure_cannot_find_words)))
-                            }
-                    }
-            }
+            examRepository.getRandomWords(RANDOM_WORDS_LIMIT_NUM)
+                .flowOn(Dispatchers.IO)
+                .catch { e ->
+                    _examData.value = Result.Error(e)
+                }
+                .collect { wordList ->
+                    _examData.value =
+                        if (wordList.isNotEmpty() && wordList.size == RANDOM_WORDS_LIMIT_NUM) {
+                            val targetWord = wordList.first()
+                            val randomArray = getRandomArray(wordList.size)
+                            val answers = wordList.getAnswers(randomArray)
+                            val examData = ExamData(
+                                targetWord.getWordAndIgnoreSymbol(),
+                                targetWord.wordMean,
+                                answers,
+                                randomArray.first()
+                            )
+                            Result.Success(examData)
+                        } else {
+                            Result.Error(IllegalStateException(App.appContext.getString(R.string.failure_cannot_find_words)))
+                        }
+                }
         }
     }
 
