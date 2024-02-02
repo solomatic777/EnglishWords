@@ -7,14 +7,12 @@ import kotlinx.coroutines.flow.flow
 import tw.tonyyang.englishwords.App
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.data.excel.local.ExcelLocalDataSource
-import tw.tonyyang.englishwords.data.excel.remote.ExcelRemoteDataSource
 import tw.tonyyang.englishwords.database.entity.Word
 import java.lang.IllegalArgumentException
 
 
 class ExcelRepository(
     private val localDataSource: ExcelLocalDataSource,
-    private val remoteDataSource: ExcelRemoteDataSource
 ) {
     suspend fun getWordList(fileUrl: String?): Flow<List<Word>> = flow {
         if (fileUrl.isNullOrBlank()) {
@@ -29,12 +27,7 @@ class ExcelRepository(
         })
     }
 
-    private fun getWorkbook(fileUrl: String): Workbook =
-        if (fileUrl.contains(SCHEME_CONTENT) || fileUrl.contains(SCHEMA_FILE)) {
-            localDataSource.getData(fileUrl)
-        } else {
-            remoteDataSource.getData(fileUrl)
-        }
+    private fun getWorkbook(fileUrl: String): Workbook = localDataSource.getData(fileUrl)
 
     private fun Sheet.parseToWordList(): List<Word> {
         val wordList = mutableListOf<Word>()
@@ -51,10 +44,5 @@ class ExcelRepository(
             )
         }
         return wordList
-    }
-
-    companion object {
-        private const val SCHEME_CONTENT = "content://"
-        private const val SCHEMA_FILE = "file:///"
     }
 }

@@ -9,7 +9,6 @@ import tw.tonyyang.englishwords.data.category.local.CategoryLocalDataSourceImpl
 import tw.tonyyang.englishwords.data.exam.local.ExamLocalDataSource
 import tw.tonyyang.englishwords.data.exam.local.ExamLocalDataSourceImpl
 import tw.tonyyang.englishwords.data.excel.local.ExcelLocalDataSource
-import tw.tonyyang.englishwords.data.excel.remote.ExcelRemoteDataSource
 import tw.tonyyang.englishwords.data.wordlist.local.WordListLocalDataSource
 import tw.tonyyang.englishwords.data.wordlist.local.WordListLocalDataSourceImpl
 import tw.tonyyang.englishwords.database.AppDatabase
@@ -36,9 +35,8 @@ val databaseModule = module {
 val appModule = module {
     // Importer
     viewModel { ImporterViewModel(get()) }
-    single { ExcelRepository(get(), get()) }
+    single { ExcelRepository(get()) }
     single { ExcelLocalDataSource() }
-    single { ExcelRemoteDataSource() }
     // Exam
     viewModel { ExamViewModel(get()) }
     single<ExamRepository> { ExamRepositoryImpl(get()) }
