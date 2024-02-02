@@ -9,7 +9,9 @@ interface ExamRepository {
     suspend fun getRandomWords(limitNum: Int): Flow<List<Word>>
 }
 
-class ExamRepositoryImpl(private val examLocalDataSource: ExamLocalDataSource) : ExamRepository {
+class ExamRepositoryImpl(
+    private val examLocalDataSource: ExamLocalDataSource
+) : ExamRepository {
     override suspend fun getRandomWords(limitNum: Int): Flow<List<Word>> = flow {
         emit(examLocalDataSource.getRandomWords(limitNum))
     }

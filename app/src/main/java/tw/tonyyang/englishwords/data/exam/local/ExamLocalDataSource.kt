@@ -7,6 +7,8 @@ interface ExamLocalDataSource {
     fun getRandomWords(limitNum: Int): List<Word>
 }
 
-class ExamLocalDataSourceImpl(private val wordDao: WordDao) : ExamLocalDataSource {
+class ExamLocalDataSourceImpl(
+    private val wordDao: WordDao
+) : ExamLocalDataSource {
     override fun getRandomWords(limitNum: Int): List<Word> = wordDao.getRandomWords(limitNum)
 }

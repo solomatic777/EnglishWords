@@ -7,7 +7,8 @@ interface CategoryRepository {
     fun getCategories(): LiveData<List<String>>
 }
 
-class CategoryRepositoryImpl(private val categoryLocalDataSource: CategoryLocalDataSource) :
-    CategoryRepository {
+class CategoryRepositoryImpl(
+    private val categoryLocalDataSource: CategoryLocalDataSource
+) : CategoryRepository {
     override fun getCategories(): LiveData<List<String>> = categoryLocalDataSource.getCategories()
 }

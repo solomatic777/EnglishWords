@@ -7,6 +7,8 @@ interface CategoryLocalDataSource {
     fun getCategories(): LiveData<List<String>>
 }
 
-class CategoryLocalDataSourceImpl(private val wordDao: WordDao) : CategoryLocalDataSource {
+class CategoryLocalDataSourceImpl(
+    private val wordDao: WordDao
+) : CategoryLocalDataSource {
     override fun getCategories(): LiveData<List<String>> = wordDao.allCategory
 }

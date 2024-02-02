@@ -8,8 +8,9 @@ interface WordListRepository {
     fun getWordList(category: String): LiveData<List<Word>>
 }
 
-class WordListRepositoryImpl(private val localDataSource: WordListLocalDataSource) :
-    WordListRepository {
+class WordListRepositoryImpl(
+    private val localDataSource: WordListLocalDataSource
+) : WordListRepository {
 
     override fun getWordList(category: String): LiveData<List<Word>> =
         localDataSource.getWordList(category)
