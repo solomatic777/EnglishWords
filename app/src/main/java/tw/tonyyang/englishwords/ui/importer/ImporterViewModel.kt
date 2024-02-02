@@ -15,7 +15,7 @@ import java.lang.IllegalStateException
 import kotlin.system.measureTimeMillis
 
 class ImporterViewModel(
-        private val excelRepository: ExcelRepository
+    private val excelRepository: ExcelRepository
 ) : ViewModel() {
 
     private val _wordList = MutableLiveData<Result<List<Word>>>()
@@ -31,30 +31,35 @@ class ImporterViewModel(
             _showResult.value = Result.InProgress
             val spendTime = measureTimeMillis {
                 excelRepository.getWordList(fileUrl)
-                        .flowOn(Dispatchers.IO)
-                        .catch { e -> _showResult.value = Result.Error(e) }
-                        .collect { wordList ->
-                            // If list is empty, set `Result.Error` for MutableLivedata and return.
-                            if (wordList.isEmpty()) {
-                                IllegalStateException(App.appContext.getString(R.string.import_excel_failed_word_list_empty)).let {
-                                    _showResult.value = Result.Error(it)
-                                    _wordList.value = Result.Error(it)
-                                }
-                                return@collect
+                    .flowOn(Dispatchers.IO)
+                    .catch { e -> _showResult.value = Result.Error(e) }
+                    .collect { wordList ->
+                        // If list is empty, set `Result.Error` for MutableLivedata and return.
+                        if (wordList.isEmpty()) {
+                            IllegalStateException(App.appContext.getString(R.string.import_excel_failed_word_list_empty)).let {
+                                _showResult.value = Result.Error(it)
+                                _wordList.value = Result.Error(it)
                             }
-                            // Delete all vocabularies before doing insertion.
-                            App.db.wordDao().deleteAll()
-                            val roomInsertedCount = App.db.wordDao().insertAll(wordList).size
-                            if (roomInsertedCount > 0) {
-                                _showResult.value = Result.Success(App.appContext.getString(R.string.import_excel_complete, roomInsertedCount))
-                                _wordList.value = Result.Success(wordList)
-                            } else {
-                                IllegalStateException(App.appContext.getString(R.string.import_excel_insert_failed)).let {
-                                    _showResult.value = Result.Error(it)
-                                    _wordList.value = Result.Error(it)
-                                }
+                            return@collect
+                        }
+                        // Delete all vocabularies before doing insertion.
+                        App.db.wordDao().deleteAll()
+                        val roomInsertedCount = App.db.wordDao().insertAll(wordList).size
+                        if (roomInsertedCount > 0) {
+                            _showResult.value = Result.Success(
+                                App.appContext.getString(
+                                    R.string.import_excel_complete,
+                                    roomInsertedCount
+                                )
+                            )
+                            _wordList.value = Result.Success(wordList)
+                        } else {
+                            IllegalStateException(App.appContext.getString(R.string.import_excel_insert_failed)).let {
+                                _showResult.value = Result.Error(it)
+                                _wordList.value = Result.Error(it)
                             }
                         }
+                    }
             }
             Timber.d("spendTime: $spendTime ms")
         }

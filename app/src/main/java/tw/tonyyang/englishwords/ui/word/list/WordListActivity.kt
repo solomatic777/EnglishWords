@@ -23,8 +23,8 @@ class WordListActivity : BaseActivity() {
         }
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, WordListFragment.newInstance(category))
-                    .commitNow()
+                .replace(R.id.container, WordListFragment.newInstance(category))
+                .commitNow()
         }
     }
 

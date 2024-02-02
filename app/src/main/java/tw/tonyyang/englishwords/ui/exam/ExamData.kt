@@ -1,6 +1,11 @@
 package tw.tonyyang.englishwords.ui.exam
 
-data class ExamData(val trueWord: String, val wordMean: String, val answers: Array<String>, val trueAnswerIndex: Int) {
+data class ExamData(
+    val trueWord: String,
+    val wordMean: String,
+    val answers: Array<String>,
+    val trueAnswerIndex: Int
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false

@@ -18,6 +18,6 @@ class ExcelRemoteDataSource : AbstractExcelDataSource() {
             throw IOException("Remote data is empty.")
         }
         return bytes
-                ?: throw IOException("Cannot get data from remote data source since response body is null.")
+            ?: throw IOException("Cannot get data from remote data source since response body is null.")
     }
 }

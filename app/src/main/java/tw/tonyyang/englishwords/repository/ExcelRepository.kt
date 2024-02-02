@@ -13,8 +13,8 @@ import java.lang.IllegalArgumentException
 
 
 class ExcelRepository(
-        private val localDataSource: ExcelLocalDataSource,
-        private val remoteDataSource: ExcelRemoteDataSource
+    private val localDataSource: ExcelLocalDataSource,
+    private val remoteDataSource: ExcelRemoteDataSource
 ) {
     suspend fun getWordList(fileUrl: String?): Flow<List<Word>> = flow {
         if (fileUrl.isNullOrBlank()) {
@@ -30,23 +30,25 @@ class ExcelRepository(
     }
 
     private fun getWorkbook(fileUrl: String): Workbook =
-            if (fileUrl.contains(SCHEME_CONTENT) || fileUrl.contains(SCHEMA_FILE)) {
-                localDataSource.getData(fileUrl)
-            } else {
-                remoteDataSource.getData(fileUrl)
-            }
+        if (fileUrl.contains(SCHEME_CONTENT) || fileUrl.contains(SCHEMA_FILE)) {
+            localDataSource.getData(fileUrl)
+        } else {
+            remoteDataSource.getData(fileUrl)
+        }
 
     private fun Sheet.parseToWordList(): List<Word> {
         val wordList = mutableListOf<Word>()
         for (i in 0 until rows) {
             if (getCell(0, i).contents[0].toString() == "#") continue
-            wordList.add(Word(
+            wordList.add(
+                Word(
                     word = getCell(0, i).contents,
                     wordMean = getCell(1, i).contents,
                     category = getCell(2, i).contents,
                     wordStar = getCell(3, i).contents,
                     wordSentence = getCell(4, i).contents
-            ))
+                )
+            )
         }
         return wordList
     }

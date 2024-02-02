@@ -21,8 +21,9 @@ class UiUtils {
                 gravity = Gravity.CENTER
             }
             var llParam = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.WRAP_CONTENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT).apply {
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
                 gravity = Gravity.CENTER
             }
             ll.layoutParams = llParam
@@ -33,8 +34,10 @@ class UiUtils {
                 layoutParams = llParam
             }
 
-            llParam = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+            llParam = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            ).apply {
                 llParam.gravity = Gravity.CENTER
             }
             val tvText = TextView(context)

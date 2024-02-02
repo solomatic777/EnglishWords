@@ -32,7 +32,11 @@ class ExamFragment : Fragment() {
         setHasOptionsMenu(true)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentExamBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -46,16 +50,19 @@ class ExamFragment : Fragment() {
                     result = ansRadioBtnList[i].text.toString()
                 }
             }
-            binding.tvResult.text = if (result == trueWord) "答對了！\n答案是：$trueWord" else "答錯了唷！\n答案是：$trueWord"
+            binding.tvResult.text =
+                if (result == trueWord) "答對了！\n答案是：$trueWord" else "答錯了唷！\n答案是：$trueWord"
         }
         examViewModel.examData.observe(viewLifecycleOwner) {
             when (it) {
                 is Result.InProgress -> {
                     Timber.d("Result.InProgress")
                 }
+
                 is Result.Success -> {
                     updateUI(it.data)
                 }
+
                 is Result.Error -> {
                     Toast.makeText(activity, it.exception.message, Toast.LENGTH_LONG).show()
                     handleError()

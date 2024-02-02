@@ -14,7 +14,11 @@ class WordListDetailFragment : BaseFragment() {
 
     private lateinit var binding: FragmentWordListDetailBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentWordListDetailBinding.inflate(inflater, container, false)
         return binding.root
     }

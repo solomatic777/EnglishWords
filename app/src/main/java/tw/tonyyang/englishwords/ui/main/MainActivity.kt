@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     private val tabLayoutLabels by lazy {
         listOf(
-                getString(R.string.tab_label_importer),
-                getString(R.string.tab_label_vocabularies),
-                getString(R.string.tab_label_exam)
+            getString(R.string.tab_label_importer),
+            getString(R.string.tab_label_vocabularies),
+            getString(R.string.tab_label_exam)
         )
     }
 
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private class LabelPagerAdapter(
-            fragmentActivity: FragmentActivity,
-            private val numOfTabs: Int
+        fragmentActivity: FragmentActivity,
+        private val numOfTabs: Int
     ) : FragmentStateAdapter(fragmentActivity) {
 
         override fun getItemCount(): Int = numOfTabs

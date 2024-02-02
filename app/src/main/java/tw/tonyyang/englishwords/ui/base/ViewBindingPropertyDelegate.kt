@@ -11,11 +11,11 @@ import kotlin.properties.ReadOnlyProperty
 import kotlin.reflect.KProperty
 
 inline fun <reified T : ViewBinding> AppCompatActivity.viewBinding(noinline initializer: (LayoutInflater) -> T) =
-        ViewBindingPropertyDelegate(this, initializer)
+    ViewBindingPropertyDelegate(this, initializer)
 
 class ViewBindingPropertyDelegate<T : ViewBinding>(
-        private val activity: AppCompatActivity,
-        private val initializer: (LayoutInflater) -> T
+    private val activity: AppCompatActivity,
+    private val initializer: (LayoutInflater) -> T
 ) : ReadOnlyProperty<AppCompatActivity, T>, LifecycleObserver {
 
     private var _value: T? = null

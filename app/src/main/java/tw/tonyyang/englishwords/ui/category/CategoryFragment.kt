@@ -27,7 +27,11 @@ class CategoryFragment : Fragment() {
 
     private lateinit var binding: FragmentCategoryBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = FragmentCategoryBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -44,11 +48,13 @@ class CategoryFragment : Fragment() {
                 is Result.InProgress -> {
                     // do nothing
                 }
+
                 is Result.Success -> {
                     categoryAdapter.categoryList = it.data.map { word ->
                         word.category
                     }.distinct()
                 }
+
                 is Result.Error -> {
                     // do nothing
                 }
