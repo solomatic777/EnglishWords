@@ -6,7 +6,6 @@ import android.widget.RadioButton
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import timber.log.Timber
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.databinding.FragmentExamBinding
 import tw.tonyyang.englishwords.state.Result
@@ -55,9 +54,7 @@ class ExamFragment : Fragment() {
         }
         examViewModel.examData.observe(viewLifecycleOwner) {
             when (it) {
-                is Result.InProgress -> {
-                    Timber.d("Result.InProgress")
-                }
+                is Result.InProgress -> {}
 
                 is Result.Success -> {
                     updateUI(it.data)

@@ -8,7 +8,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import tw.tonyyang.englishwords.App
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.database.entity.Word
@@ -25,7 +24,7 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
     fun requestExam() {
         viewModelScope.launch {
             _examData.value = Result.InProgress
-            val spendTime = measureTimeMillis {
+            measureTimeMillis {
                 examRepository.getRandomWords(RANDOM_WORDS_LIMIT_NUM)
                     .flowOn(Dispatchers.IO)
                     .catch { e ->
@@ -49,7 +48,6 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
                             }
                     }
             }
-            Timber.d("spendTime: $spendTime ms")
         }
     }
 
@@ -69,7 +67,7 @@ class ExamViewModel(private val examRepository: ExamRepository) : ViewModel() {
 
     private fun List<Word>.getAnswers(randomArray: IntArray): Array<String> {
         val answers = Array(randomArray.size) { "" }
-        for (i in 0 until size) {
+        for (i in indices) {
             answers[i] = this[randomArray[i]].getWordAndIgnoreSymbol()
         }
         return answers

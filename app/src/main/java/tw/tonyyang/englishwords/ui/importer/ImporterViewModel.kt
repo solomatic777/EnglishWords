@@ -5,7 +5,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import tw.tonyyang.englishwords.App
 import tw.tonyyang.englishwords.R
 import tw.tonyyang.englishwords.database.entity.Word
@@ -29,7 +28,7 @@ class ImporterViewModel(
     fun importWords(fileUrl: String?) {
         viewModelScope.launch {
             _showResult.value = Result.InProgress
-            val spendTime = measureTimeMillis {
+            measureTimeMillis {
                 excelRepository.getWordList(fileUrl)
                     .flowOn(Dispatchers.IO)
                     .catch { e -> _showResult.value = Result.Error(e) }
@@ -61,7 +60,6 @@ class ImporterViewModel(
                         }
                     }
             }
-            Timber.d("spendTime: $spendTime ms")
         }
     }
 }

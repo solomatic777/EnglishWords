@@ -27,14 +27,11 @@ class WordListDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         val word = arguments?.getParcelable(WordListDetailActivity.EXTRA_SELECTED_WORD) as? Word
         if (word != null) {
-            Timber.d("word: $word")
             binding.tvWord.text = word.word.replace("*", "")
             binding.tvWordmean.text = word.wordMean
             binding.tvWordSentence.text = word.wordSentence
             binding.tvCategory.text = word.category
             binding.ratingbar.setStar(word.wordStar.toFloat())
-        } else {
-            Timber.d("word is null")
         }
     }
 
